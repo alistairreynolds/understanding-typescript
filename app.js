@@ -1,12 +1,11 @@
 "use strict";
-function combine(input1, input2, resultType // defines a literal
-) {
+function combine(firstInput, secondInput, resultType) {
     var result;
-    if ((typeof input1 === "number" && typeof input2 === "number" || resultType === 'as-number')) {
-        result = +input1 + +input2;
+    if ((typeof firstInput === "number" && typeof secondInput === "number" || resultType === 'as-number')) {
+        result = +firstInput + +secondInput;
     }
     else {
-        result = input1.toString() + input2.toString();
+        result = firstInput.toString() + secondInput.toString();
     }
     return result;
 }
