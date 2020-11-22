@@ -1,6 +1,14 @@
 type Combinable = number | string;
 type ResultType = 'as-number' | 'as-text';
 
+type User = {name: string, age: number};
+
+function greet(user: User){
+    console.log(`Hello ${user.name} who is ${user.age} years old`);
+}
+
+greet({age: 30, name: "dave"});
+
 function combine(
     firstInput: Combinable,
     secondInput: Combinable,

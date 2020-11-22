@@ -1,4 +1,8 @@
 "use strict";
+function greet(user) {
+    console.log("Hello " + user.name + " who is " + user.age + " years old");
+}
+greet({ age: 30, name: "dave" });
 function combine(firstInput, secondInput, resultType) {
     var result;
     if ((typeof firstInput === "number" && typeof secondInput === "number" || resultType === 'as-number')) {
