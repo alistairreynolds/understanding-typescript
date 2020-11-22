@@ -7,7 +7,8 @@ function add(num1: number, num2: number, showResult: boolean, prefix: string){
     }
 }
 
-const first = +"5";
+let first: number;
+first = 5;
 const second = 7.2;
 const showResult = true;
 

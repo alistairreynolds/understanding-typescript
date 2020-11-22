@@ -8,7 +8,8 @@ function add(num1, num2, showResult, prefix) {
         return result;
     }
 }
-var first = +"5";
+var first;
+first = 5;
 var second = 7.2;
 var showResult = true;
 var r = add(first, second, showResult, "The result is ");
