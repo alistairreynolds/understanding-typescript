@@ -1,9 +1,15 @@
 "use strict";
+var Role;
+(function (Role) {
+    Role[Role["USER"] = 0] = "USER";
+    Role[Role["DEV"] = 1] = "DEV";
+    Role[Role["ADMIN"] = 99] = "ADMIN";
+})(Role || (Role = {}));
 var person = {
     name: "Alistair",
     age: 34,
     hobbies: ['cake', "pizza"],
-    role: [2, 'dev']
+    role: Role.ADMIN
 };
 // Throws an error because tuple index 1 = number
 // person.role[1] = 4;

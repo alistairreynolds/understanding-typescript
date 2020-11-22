@@ -1,13 +1,14 @@
-const person: {
-    name: string;
-    age: number
-    hobbies: string[];
-    role: [number, string]; // Denotes a Tuple
-} = {
+enum Role {
+    USER,
+    DEV,
+    ADMIN = 99,
+}
+
+const person = {
     name: "Alistair",
     age: 34,
     hobbies: ['cake', "pizza"],
-    role: [2, 'dev']
+    role: Role.ADMIN
 };
 
 // Throws an error because tuple index 1 = number
