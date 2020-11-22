@@ -1,0 +1,20 @@
+{
+  "name": "understanding-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" "
+  },
+  "author": "Maximilian Schwarzmüller",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.5.4",
+    "concurrently": "^5.3.0"
+  },
+  "dependencies": {
+  }
+}
