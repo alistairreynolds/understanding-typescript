@@ -1,21 +1,12 @@
 "use strict";
-function greet(user) {
-    console.log("Hello " + user.name + " who is " + user.age + " years old");
+function add(first, second) {
+    return first + second;
 }
-greet({ age: 30, name: "dave" });
-function combine(firstInput, secondInput, resultType) {
-    var result;
-    if ((typeof firstInput === "number" && typeof secondInput === "number" || resultType === 'as-number')) {
-        result = +firstInput + +secondInput;
-    }
-    else {
-        result = firstInput.toString() + secondInput.toString();
-    }
-    return result;
+function print(num) {
+    console.log(num);
 }
-var combinedAges = combine(20, 50, 'as-number');
-console.log(combinedAges);
-var combinedAgesStrings = combine('20', '50', 'as-number');
-console.log(combinedAgesStrings);
-var combinedNames = combine("Dave", "Suzy", 'as-text');
-console.log(combinedNames);
+// Set the combinedValues var to be a method that requires two number parameters and returns a number
+var combinedValues;
+combinedValues = add;
+print(add(3, 5));
+print(combinedValues(7, 10));
