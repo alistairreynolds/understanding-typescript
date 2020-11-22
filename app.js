@@ -9,3 +9,8 @@ if (typeof userInput === 'string') {
     // Is OK because we're explicitly stating
     userName = userInput;
 }
+// Use "never" of it will never return anything, even undefined. ie, if it stops here and doesn't continue
+function throwError(msg, code) {
+    throw ({ message: msg, errorCode: code });
+}
+throwError('asd', 300);
