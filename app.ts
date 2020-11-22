@@ -1,22 +1,9 @@
-enum Role {
-    USER,
-    DEV,
-    ADMIN = 99,
-}
-
-const person = {
-    name: "Alistair",
-    age: 34,
-    hobbies: ['cake', "pizza"],
-    role: Role.ADMIN
-};
-
-// Throws an error because tuple index 1 = number
-// person.role[1] = 4;
-
-let hobbies: string[];
-hobbies = ['cake', 'pizza'];
-
-for (const hobby of hobbies) {
-    console.log(hobby.toUpperCase());
+function combine(input1: number | string, input2: number | string) {
+    let result;
+    if (typeof input1 === "number" && typeof input2 === "number") {
+        result = input1 + input2;
+    } else {
+        result = input1.toString() + input2.toString();
+    }
+    return result;
 }
