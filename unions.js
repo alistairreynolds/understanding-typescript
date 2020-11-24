@@ -1,10 +1,10 @@
 "use strict";
 function greet(user) {
-    console.log("Hello " + user.name + " who is " + user.age + " years old");
+    console.log(`Hello ${user.name} who is ${user.age} years old`);
 }
 greet({ age: 30, name: "dave" });
 function combine(firstInput, secondInput, resultType) {
-    var result;
+    let result;
     if ((typeof firstInput === "number" && typeof secondInput === "number" || resultType === 'as-number')) {
         result = +firstInput + +secondInput;
     }
@@ -13,9 +13,9 @@ function combine(firstInput, secondInput, resultType) {
     }
     return result;
 }
-var combinedAges = combine(20, 50, 'as-number');
+const combinedAges = combine(20, 50, 'as-number');
 console.log(combinedAges);
-var combinedAgesStrings = combine('20', '50', 'as-number');
+const combinedAgesStrings = combine('20', '50', 'as-number');
 console.log(combinedAgesStrings);
-var combinedNames = combine("Dave", "Suzy", 'as-text');
+const combinedNames = combine("Dave", "Suzy", 'as-text');
 console.log(combinedNames);
