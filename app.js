@@ -18,7 +18,13 @@ class Department {
         console.log(this.employees.length);
     }
 }
+class ITDept extends Department {
+    constructor(_id, admins) {
+        super(_id, 'IT');
+    }
+}
 const accounting = new Department(1, 'accounting');
+const id = new ITDept(2, ['dave', 'susan']);
 accounting.addEmployee('dave');
 accounting.printEmployeesCount();
 // Won't work because we've explicitly stated what "this" refers to
