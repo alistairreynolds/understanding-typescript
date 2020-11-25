@@ -1,9 +1,7 @@
 class Department {
-    name: string;
     private employees: string[] = [];
 
-    constructor(n: string) {
-        this.name = n;
+    constructor(public id: number, private name: string) {
     }
 
     describe(this: Department) {
@@ -14,14 +12,15 @@ class Department {
         this.employees.push(employee);
     }
 
-    printEmployeesCount(){
+    printEmployeesCount() {
         console.log(this.employees.length);
     }
 }
 
-const accounting = new Department('accounting')
+const accounting = new Department(1, 'accounting')
 
 accounting.addEmployee('dave');
+accounting.printEmployeesCount();
 
 // Won't work because we've explicitly stated what "this" refers to
 const accountingCopy = {describe: accounting.describe};

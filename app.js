@@ -1,8 +1,9 @@
 "use strict";
 class Department {
-    constructor(n) {
+    constructor(id, name) {
+        this.id = id;
+        this.name = name;
         this.employees = [];
-        this.name = n;
     }
     describe() {
         console.log(`Department: ${this.name}`);
@@ -14,8 +15,9 @@ class Department {
         console.log(this.employees.length);
     }
 }
-const accounting = new Department('accounting');
+const accounting = new Department(1, 'accounting');
 accounting.addEmployee('dave');
+accounting.printEmployeesCount();
 // Won't work because we've explicitly stated what "this" refers to
 const accountingCopy = { describe: accounting.describe };
 // console.log(accountingCopy.describe());
