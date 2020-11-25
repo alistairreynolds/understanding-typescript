@@ -1,16 +1,14 @@
-class Department {
+abstract class Department {
     protected employees: string[] = [];
 
-    constructor(private readonly _id: number, private name: string) {
+    protected constructor(protected readonly _id: number, protected name: string) {
     }
 
     get id() {
         return this._id
     }
 
-    describe(this: Department) {
-        console.log(`Department: ${this.name}`);
-    }
+    abstract describe(this: Department): void       // Needs :void here for abstract methods
 
     addEmployee(employee: string) {
         this.employees.push(employee);
@@ -28,21 +26,16 @@ class ITDept extends Department {
     }
 
     addEmployee(employee: string) {
-        if(employee === 'dave'){
+        if (employee === 'dave') {
             return;
         }
         this.employees.push(employee);
     }
 
+    describe(): void {
+        console.log(`Department: IT Dept`);
+    }
 
 }
 
-const accounting = new Department(1, 'accounting')
-const id = new ITDept(2, ['dave', 'susan']);
-
-accounting.addEmployee('dave');
-accounting.printEmployeesCount();
-
-// Won't work because we've explicitly stated what "this" refers to
-const accountingCopy = {describe: accounting.describe};
-// console.log(accountingCopy.describe());
+const itDept = new ITDept(2, ['dave', 'susan']);

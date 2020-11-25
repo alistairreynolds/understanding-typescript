@@ -8,9 +8,6 @@ class Department {
     get id() {
         return this._id;
     }
-    describe() {
-        console.log(`Department: ${this.name}`);
-    }
     addEmployee(employee) {
         this.employees.push(employee);
     }
@@ -28,11 +25,8 @@ class ITDept extends Department {
         }
         this.employees.push(employee);
     }
+    describe() {
+        console.log(`Department: IT Dept`);
+    }
 }
-const accounting = new Department(1, 'accounting');
-const id = new ITDept(2, ['dave', 'susan']);
-accounting.addEmployee('dave');
-accounting.printEmployeesCount();
-// Won't work because we've explicitly stated what "this" refers to
-const accountingCopy = { describe: accounting.describe };
-// console.log(accountingCopy.describe());
+const itDept = new ITDept(2, ['dave', 'susan']);
