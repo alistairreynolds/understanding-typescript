@@ -1,7 +1,11 @@
 class Department {
     private employees: string[] = [];
 
-    constructor(public id: number, private name: string) {
+    constructor(public readonly _id: number, private name: string) {
+    }
+
+    get id(){
+        return this._id
     }
 
     describe(this: Department) {

@@ -1,9 +1,12 @@
 "use strict";
 class Department {
-    constructor(id, name) {
-        this.id = id;
+    constructor(_id, name) {
+        this._id = _id;
         this.name = name;
         this.employees = [];
+    }
+    get id() {
+        return this._id;
     }
     describe() {
         console.log(`Department: ${this.name}`);
