@@ -22,6 +22,12 @@ class ITDept extends Department {
     constructor(_id, admins) {
         super(_id, 'IT');
     }
+    addEmployee(employee) {
+        if (employee === 'dave') {
+            return;
+        }
+        this.employees.push(employee);
+    }
 }
 const accounting = new Department(1, 'accounting');
 const id = new ITDept(2, ['dave', 'susan']);
