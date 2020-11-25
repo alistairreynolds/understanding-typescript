@@ -15,7 +15,7 @@ class Department {
         console.log(this.employees.length);
     }
 }
-class ITDept extends Department {
+class ITDepartment extends Department {
     constructor(_id, admins) {
         super(_id, 'IT');
     }
@@ -29,4 +29,17 @@ class ITDept extends Department {
         console.log(`Department: IT Dept`);
     }
 }
-const itDept = new ITDept(2, ['dave', 'susan']);
+class AccountingDepartment extends Department {
+    describe() {
+        console.log(`Department: Accounting Dept`);
+    }
+    static getInstance() {
+        if (this.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment(2, 'accounting');
+        return this.instance;
+    }
+}
+const itDept = new ITDepartment(1, ['dave', 'susan']);
+const accountingDept = AccountingDepartment.getInstance();

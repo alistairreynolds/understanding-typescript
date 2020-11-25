@@ -1,7 +1,7 @@
 abstract class Department {
     protected employees: string[] = [];
 
-    protected constructor(protected readonly _id: number, protected name: string) {
+    constructor(protected readonly _id: number, protected name: string) {
     }
 
     get id() {
@@ -20,7 +20,7 @@ abstract class Department {
 }
 
 
-class ITDept extends Department {
+class ITDepartment extends Department {
     constructor(_id: number, admins: string[]) {
         super(_id, 'IT');
     }
@@ -38,4 +38,25 @@ class ITDept extends Department {
 
 }
 
-const itDept = new ITDept(2, ['dave', 'susan']);
+
+class AccountingDepartment extends Department {
+
+    private static instance: AccountingDepartment;
+
+    describe(): void {
+        console.log(`Department: Accounting Dept`);
+    }
+
+
+    static getInstance(){
+        if(this.instance){
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment(2, 'accounting');
+        return this.instance;
+    }
+
+}
+
+const itDept = new ITDepartment(1, ['dave', 'susan']);
+const accountingDept = AccountingDepartment.getInstance();
