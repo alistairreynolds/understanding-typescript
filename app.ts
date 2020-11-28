@@ -1,5 +1,5 @@
 interface Greetable {
-    name: string;
+    readonly name: string;
     greet(greeting: string): void;
 }
 
