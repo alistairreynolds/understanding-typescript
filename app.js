@@ -8,5 +8,6 @@ var Person = /** @class */ (function () {
     };
     return Person;
 }());
-var user1 = new Person(30, 'asdda');
+var user1;
+user1 = new Person(30, 'asdda');
 console.log(user1);

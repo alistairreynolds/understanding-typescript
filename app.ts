@@ -14,6 +14,8 @@ class Person implements Greetable{
     }
 }
 
-let user1 = new Person(30, 'asdda');
+let user1: Greetable;
+
+user1 = new Person(30, 'asdda');
 
 console.log(user1);
