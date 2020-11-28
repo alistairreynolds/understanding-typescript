@@ -114,3 +114,9 @@ getSpeed({type: 'bird', flyingSpeed: 10});
 
 // Will throw errors
 // getSpeed({type: 'cat', flyingSpeed: 10});
+
+// Type casting to an HTMLInputElement so we can set the 'cake'
+// const userInputEl = <HTMLInputElement>document.querySelector('#user-input');
+// Alternative method which works with React
+const userInputEl = document.querySelector('#user-input') as HTMLInputElement;
+userInputEl.value = 'cake';
