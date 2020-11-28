@@ -1,62 +1,27 @@
-// Defining as a type
-// type AddFn = (a: number, b: number) => number;
-
-// Defining as an interface
-interface AddFn {
-    (a: number, b: number): number
+// Create an Admin type...
+type Admin = {
+    name: String;
+    privileges: String[];
 }
 
-let addT: AddFn;
-
-addT = (a, b) => {
-    return a + b;
+// ...and an Employee type
+type Employee = {
+    name: String;
+    startDate: Date;
 }
 
+// ...join them together as an intersect
+type ElevatedEmployee = Admin & Employee;
 
-interface Named {
-    readonly name: string;
-    readonly surname?: string;
-}
-
-interface Aged {
-    age: number;
-}
-
-interface Greetable extends Named {
-    greet(greeting: string): void;
-
-    farewell?(message: string): void;
+const admin1: ElevatedEmployee = {
+    name: "",
+    privileges: [],
+    startDate: new Date()
 }
 
 
-class Person implements Greetable, Aged {
+// Can intersect unions too
+type Combinable = number | string;
+type Numeric = number | boolean;
 
-    constructor(public age: number, public name: string, public surname?: string) {
-    }
-
-    greet(greeting: string) {
-        console.log(`${greeting} ${this.name}`)
-    }
-
-    farewell(greeting: string) {
-        console.log(`${greeting} ${this.name}`)
-    }
-}
-
-class Dog implements Named {
-    surname?: string;
-
-    constructor(public name: string, sn?: string) {
-        if(sn) {
-            this.surname = sn;
-        }
-    }
-
-}
-
-
-let user1: Greetable;
-
-user1 = new Person(30, 'asdda');
-
-console.log(user1);
+type Anything = Combinable & Numeric;
