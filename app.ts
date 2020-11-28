@@ -1,3 +1,19 @@
+// Defining as a type
+// type AddFn = (a: number, b: number) => number;
+
+// Defining as an interface
+interface AddFn{
+    (a: number, b:number): number
+}
+
+let addT: AddFn;
+
+addT = (a, b) => {
+    return a + b;
+}
+
+
+
 interface Named{
     readonly name: string;
 }

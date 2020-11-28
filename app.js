@@ -1,3 +1,9 @@
+// Defining as a type
+// type AddFn = (a: number, b: number) => number;
+var addT;
+addT = function (a, b) {
+    return a + b;
+};
 var Person = /** @class */ (function () {
     function Person(age, name) {
         this.age = age;
