@@ -85,3 +85,32 @@ function driveVehicle(veh: Vehicle){
 
 driveVehicle((new Car()))
 driveVehicle((new Truck()))
+
+
+// Discriminated unions
+interface Cat{
+    type: 'cat';
+    runningSpeed: number;
+}
+
+interface Bird{
+    type: 'bird';
+    flyingSpeed: number;
+}
+
+type Animal = Bird | Cat;
+
+
+function getSpeed(animal: Animal){
+    switch (animal.type){
+        case 'cat':
+            return animal.runningSpeed
+        case 'bird':
+            return animal.flyingSpeed
+    }
+}
+
+getSpeed({type: 'bird', flyingSpeed: 10});
+
+// Will throw errors
+// getSpeed({type: 'cat', flyingSpeed: 10});
