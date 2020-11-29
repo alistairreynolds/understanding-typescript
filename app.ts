@@ -48,7 +48,7 @@ interface HasLength {
     length: number;
 }
 
-function countAndDescribe<T extends HasLength>(param: T): [T, string] {
+function countAndDescribe<T extends HasLength>(param: T): [T, String] {
     let description = 'has no length value';
     if (param.length === 1) {
         description = `has a a single element `;
@@ -60,3 +60,12 @@ function countAndDescribe<T extends HasLength>(param: T): [T, string] {
 }
 
 console.log(countAndDescribe(['asdadad', 'dfsf']));
+
+// keyof
+
+function extractKey<T extends Object, U extends keyof T>(obj: T, key: U){
+    return obj[key];
+}
+
+// Will throw an error if there requested key doesn't exist because we're using "keyof" in the generic
+console.log(extractKey({name: 'dude'}, 'name'));

@@ -40,3 +40,9 @@ function countAndDescribe(param) {
     return [param, description];
 }
 console.log(countAndDescribe(['asdadad', 'dfsf']));
+// keyof
+function extractKey(obj, key) {
+    return obj[key];
+}
+// Will throw an error if there requested key doesn't exist because we're using "keyof" in the generic
+console.log(extractKey({ name: 'dude' }, 'name'));
