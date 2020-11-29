@@ -1,15 +1,25 @@
-const person = {
-    name: 'dave',
-    job: {title: 'poop-head', description: 'head of poop'}
-}
+// This is generic
+const users: [] = []
 
-// Only log job if it exists
-console.log(person.job?.title);
+// These are specific
+const users1: Array<string | number> = [];     // Would be like string[]|number[]
+const users2: (string | number)[] = [];
+const users3: string[] | number[] = [];       // However this does not work
 
-const userInput = '';
 
-// It's empty, so will return default (logical OR)
-console.log(userInput || 'default');
+users1.push('asd');
+users1.push(1);
+users2.push('asd');
+users2.push(1);
 
-// It's specifically not null, so will return the user input still (nullish coalescing)
-console.log(userInput ?? 'default');
+
+// Would be generic if not for Promise<string>
+const promiseFn: Promise<string> = new Promise((resolve, reject) => {
+    if (Math.random() > 0.5) {
+        resolve('all good');
+    } else {
+        reject('all bad');
+    }
+})
+
+promiseFn.then(r => console.log(r)).catch(r => console.error(r));

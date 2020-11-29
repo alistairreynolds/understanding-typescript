@@ -1,12 +1,20 @@
-var _a;
-var person = {
-    name: 'dave',
-    job: { title: 'poop-head', description: 'head of poop' }
-};
-// Only log job if it exists
-console.log((_a = person.job) === null || _a === void 0 ? void 0 : _a.title);
-var userInput = '';
-// It's empty, so will return default (logical OR)
-console.log(userInput || 'default');
-// It's specifically not null, so will return the user input still (nullish coalescing)
-console.log(userInput !== null && userInput !== void 0 ? userInput : 'default');
+// This is generic
+var users = [];
+// These are specific
+var users1 = []; // Would be like string[]|number[]
+var users2 = [];
+var users3 = []; // However this does not work
+users1.push('asd');
+users1.push(1);
+users2.push('asd');
+users2.push(1);
+// Would be generic if not for Promise<string>
+var promiseFn = new Promise(function (resolve, reject) {
+    if (Math.random() > 0.5) {
+        resolve('all good');
+    }
+    else {
+        reject('all bad');
+    }
+});
+promiseFn.then(function (r) { return console.log(r); })["catch"](function (r) { return console.error(r); });
