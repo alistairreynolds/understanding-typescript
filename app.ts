@@ -25,11 +25,10 @@ const promiseFn: Promise<string> = new Promise((resolve, reject) => {
 promiseFn.then(r => console.log(r)).catch(r => console.error(r));
 
 
-
 // Defining a generic function
 // Convention is to use "T", then carry on with the alphabet
 // Using "extends" it constrains the T and U to be objects still
-function merged<T extends object, U extends object>(objA: T, objB: U){
+function merged<T extends object, U extends object>(objA: T, objB: U) {
     return Object.assign(objA, objB);
 }
 
@@ -43,3 +42,21 @@ console.log(mergeResult2.potatoes[0]);
 
 // Won't work as it's a constrained generic
 // const constrainedMergeResult = merged({name: 'sdada'},  30);
+
+interface HasLength {
+    // State that it needs to have a length property
+    length: number;
+}
+
+function countAndDescribe<T extends HasLength>(param: T): [T, string] {
+    let description = 'has no length value';
+    if (param.length === 1) {
+        description = `has a a single element `;
+    } else if (param.length > 1) {
+        description = `has ${param.length} elements`;
+    }
+
+    return [param, description];
+}
+
+console.log(countAndDescribe(['asdadad', 'dfsf']));

@@ -29,5 +29,14 @@ var mergeResult2 = merged({ potatoes: ['red', 'brown'] }, { age: 30 });
 // If we just used (objA: object) on the function definition, it wouldn't be able to know "name" is a property
 console.log(mergeResult.name);
 console.log(mergeResult2.potatoes[0]);
-// Won't work as it's a constrained generic
-// const constrainedMergeResult = merged({name: 'sdada'},  30);
+function countAndDescribe(param) {
+    var description = 'has no length value';
+    if (param.length === 1) {
+        description = "has a a single element ";
+    }
+    else if (param.length > 1) {
+        description = "has " + param.length + " elements";
+    }
+    return [param, description];
+}
+console.log(countAndDescribe(['asdadad', 'dfsf']));
