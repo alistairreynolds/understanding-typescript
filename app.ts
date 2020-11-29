@@ -120,3 +120,16 @@ getSpeed({type: 'bird', flyingSpeed: 10});
 // Alternative method which works with React
 const userInputEl = document.querySelector('#user-input') as HTMLInputElement;
 userInputEl.value = 'cake';
+
+
+
+interface ErrorContainer {
+    id: string,
+    [prop: string]: string
+}
+
+const errorBag: ErrorContainer = {
+    id: "loginForm",
+    email: 'email must be valid email address',
+    username: 'username must be filled in'
+}
