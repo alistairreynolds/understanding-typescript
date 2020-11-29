@@ -28,7 +28,8 @@ promiseFn.then(r => console.log(r)).catch(r => console.error(r));
 
 // Defining a generic function
 // Convention is to use "T", then carry on with the alphabet
-function merged<T, U>(objA: T, objB: U){
+// Using "extends" it constrains the T and U to be objects still
+function merged<T extends object, U extends object>(objA: T, objB: U){
     return Object.assign(objA, objB);
 }
 
@@ -38,3 +39,7 @@ const mergeResult2 = merged({potatoes: ['red', 'brown']}, {age: 30});
 // If we just used (objA: object) on the function definition, it wouldn't be able to know "name" is a property
 console.log(mergeResult.name);
 console.log(mergeResult2.potatoes[0]);
+
+
+// Won't work as it's a constrained generic
+// const constrainedMergeResult = merged({name: 'sdada'},  30);
