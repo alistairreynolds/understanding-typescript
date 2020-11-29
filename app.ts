@@ -23,3 +23,18 @@ const promiseFn: Promise<string> = new Promise((resolve, reject) => {
 })
 
 promiseFn.then(r => console.log(r)).catch(r => console.error(r));
+
+
+
+// Defining a generic function
+// Convention is to use "T", then carry on with the alphabet
+function merged<T, U>(objA: T, objB: U){
+    return Object.assign(objA, objB);
+}
+
+const mergeResult = merged({name: 'sdada'}, {age: 30});
+const mergeResult2 = merged({potatoes: ['red', 'brown']}, {age: 30});
+
+// If we just used (objA: object) on the function definition, it wouldn't be able to know "name" is a property
+console.log(mergeResult.name);
+console.log(mergeResult2.potatoes[0]);
