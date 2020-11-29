@@ -14,6 +14,24 @@ function add(a, b) {
 add(3, 'dfs');
 // TS knows it will return a number because of the function overload
 add(3, 3);
+function addAll() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    if (args.every(function (arg) { return typeof arg === 'number'; })) {
+        var total_1 = 0;
+        args.map(function (arg) {
+            return total_1 += parseInt(arg.toString());
+        });
+        return total_1;
+    }
+    else {
+        return args.join('');
+    }
+}
+addAll(1, 2, 3, 4);
+addAll('1', 2, 3, 4);
 function showEmployee(emp) {
     console.log(emp.name);
     if ('privileges' in emp) {

@@ -22,9 +22,9 @@ const admin1: ElevatedEmployee = {
 
 function add(a: number, b: number): number;
 function add(a: Combinable, b: Combinable): string;
-function add(a: Combinable, b: Combinable){
+function add(a: Combinable, b: Combinable) {
     // typeof === ... is a type guard
-    if(typeof a === 'string' || typeof b === 'string'){
+    if (typeof a === 'string' || typeof b === 'string') {
         return a.toString() + b.toString();
     }
     return a + b;
@@ -37,6 +37,24 @@ add(3, 'dfs')
 add(3, 3)
 
 
+function addAll(...args: number[]): number;
+function addAll(...args: Combinable[]): string;
+function addAll(...args: Combinable[]) {
+    if (args.every(arg => typeof arg === 'number')) {
+        let total: number = 0;
+        args.map(arg => {
+            return total += parseInt(arg.toString());
+        });
+        return total;
+    } else {
+        return args.join('');
+    }
+}
+
+addAll(1, 2, 3, 4);
+addAll('1', 2, 3, 4);
+
+
 // Can intersect unions too
 type Combinable = number | string;
 type Numeric = number | boolean;
@@ -46,13 +64,13 @@ type Anything = Combinable & Numeric;
 
 type UnknownEmployee = Admin | Employee;
 
-function showEmployee(emp: UnknownEmployee){
+function showEmployee(emp: UnknownEmployee) {
     console.log(emp.name);
-    if('privileges' in  emp ) {
+    if ('privileges' in emp) {
 
         console.log(emp.privileges)
     }
-    if('startDate' in  emp ) {
+    if ('startDate' in emp) {
         console.log(emp.startDate)
     }
 }
@@ -60,21 +78,20 @@ function showEmployee(emp: UnknownEmployee){
 showEmployee(admin1)
 
 
-
-class Car{
-    drive(){
+class Car {
+    drive() {
         console.log('brum')
         return this;
     }
 }
 
-class Truck{
-    drive(){
+class Truck {
+    drive() {
         console.log('BRUM');
         return this;
     }
 
-    loadCargo(amount: number){
+    loadCargo(amount: number) {
         console.log(`loading ${amount}`)
         return this;
     }
@@ -82,11 +99,11 @@ class Truck{
 
 type Vehicle = Car | Truck;
 
-function driveVehicle(veh: Vehicle){
+function driveVehicle(veh: Vehicle) {
     veh.drive();
     // Type guard in classes
 
-    if(veh instanceof Truck){
+    if (veh instanceof Truck) {
         veh.loadCargo(1000);
     }
 }
@@ -96,12 +113,12 @@ driveVehicle((new Truck()))
 
 
 // Discriminated unions
-interface Cat{
+interface Cat {
     type: 'cat';
     runningSpeed: number;
 }
 
-interface Bird{
+interface Bird {
     type: 'bird';
     flyingSpeed: number;
 }
@@ -109,8 +126,8 @@ interface Bird{
 type Animal = Bird | Cat;
 
 
-function getSpeed(animal: Animal){
-    switch (animal.type){
+function getSpeed(animal: Animal) {
+    switch (animal.type) {
         case 'cat':
             return animal.runningSpeed
         case 'bird':
@@ -130,9 +147,9 @@ const userInputEl = document.querySelector('#user-input') as HTMLInputElement;
 userInputEl.value = 'cake';
 
 
-
 interface ErrorContainer {
     id: string,
+
     [prop: string]: string
 }
 
