@@ -3,13 +3,17 @@ var admin1 = {
     privileges: ['dddsa'],
     startDate: new Date()
 };
-function addA(a, b) {
+function add(a, b) {
     // typeof === ... is a type guard
     if (typeof a === 'string' || typeof b === 'string') {
         return a.toString() + b.toString();
     }
     return a + b;
 }
+// TS knows it will return a string because of the function overload
+add(3, 'dfs');
+// TS knows it will return a number because of the function overload
+add(3, 3);
 function showEmployee(emp) {
     console.log(emp.name);
     if ('privileges' in emp) {

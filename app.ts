@@ -20,13 +20,21 @@ const admin1: ElevatedEmployee = {
 }
 
 
-function addA(a: Combinable, b: Combinable){
+function add(a: number, b: number): number;
+function add(a: Combinable, b: Combinable): string;
+function add(a: Combinable, b: Combinable){
     // typeof === ... is a type guard
     if(typeof a === 'string' || typeof b === 'string'){
         return a.toString() + b.toString();
     }
     return a + b;
 }
+
+// TS knows it will return a string because of the function overload
+add(3, 'dfs')
+
+// TS knows it will return a number because of the function overload
+add(3, 3)
 
 
 // Can intersect unions too
