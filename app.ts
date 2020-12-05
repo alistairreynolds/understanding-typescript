@@ -1,17 +1,17 @@
-class DataStorage<T extends String | Number | Boolean>{
+class DataStorage<T extends String | Number | Boolean> {
     // Define a custom/generic type so that it doesn't really matter what gets passed
     // Don't allow objects as they won't be removed very well
-    private data : T[] = [];
+    private data: T[] = [];
 
-    addItem(item: T){
+    addItem(item: T) {
         this.data.push(item);
     }
 
-    removeItem(item: T){
+    removeItem(item: T) {
         this.data.splice(this.data.indexOf(item), 1);
     }
 
-    getItems(){
+    getItems() {
         return this.data;
     }
 }
@@ -31,3 +31,30 @@ numberStorage.addItem(10)
 // const objStorage = new DataStorage<Object>()
 // numberStorage.addItem({name: 'bill'})
 // numberStorage.removeItem({name: 'bill'})
+
+
+interface CourseGoal {
+    title: string,
+    description: string,
+    completeBy: Date,
+}
+
+function createCourseGoal(title: string, description: string, completeBy: Date): CourseGoal {
+
+    // Partial allows you to turn every parameter as optional
+    let obj: Partial<CourseGoal> = {};
+
+    obj.title = title;
+    obj.description = description;
+    obj.completeBy = completeBy;
+
+    // Type cast so that it returns as a CourseGoal properly
+    return obj as CourseGoal;
+}
+
+
+console.log(createCourseGoal('sad', 'fsdfs', new Date()))
+
+
+const names: Readonly<string[]> = ['dave', 'bill'];
+// Can no longer add to names
