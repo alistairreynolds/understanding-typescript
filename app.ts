@@ -1,17 +1,17 @@
-// Decorator is just a function, usually Pascal case
-function Logger(constructor: Function){
-    console.log('Logging');
-    console.log(constructor);
+// Create as a decorator factory so it can be customised when called
+function Logger(logMsg: string){
+    return function (constructor: Function){
+        console.log(logMsg);
+        console.log(constructor);
+    }
 }
 
-@Logger // Says you want to use a decorator here
+@Logger('Logging - person')
 class Person{
     name = 'me';
-
     constructor() {
         console.log('Creating person');
     }
-
 }
 
 
