@@ -11,15 +11,23 @@ function Logger(logMsg) {
         console.log(constructor);
     };
 }
+function WithTemplate(template, selector) {
+    return function (constructor) {
+        var el = document.querySelector(selector);
+        var p = new constructor();
+        if (el) {
+            el.innerHTML = template;
+            el.querySelector('h1').textContent = p.name;
+        }
+    };
+}
 var Person = /** @class */ (function () {
     function Person() {
         this.name = 'me';
-        console.log('Creating person');
     }
     Person = __decorate([
-        Logger('Logging - person')
+        WithTemplate('<h1></h1>', '#app')
     ], Person);
     return Person;
 }());
 var person = new Person();
-console.log(person);

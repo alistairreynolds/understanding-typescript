@@ -1,20 +1,27 @@
 // Create as a decorator factory so it can be customised when called
-function Logger(logMsg: string){
-    return function (constructor: Function){
+function Logger(logMsg: string) {
+    return function (constructor: Function) {
         console.log(logMsg);
         console.log(constructor);
     }
 }
 
-@Logger('Logging - person')
-class Person{
-    name = 'me';
-    constructor() {
-        console.log('Creating person');
+
+function WithTemplate(template: string, selector: string) {
+    return function (constructor: any) {
+        const el = document.querySelector(selector);
+        const p = new constructor();
+        if (el) {
+            el.innerHTML = template;
+            el.querySelector('h1')!.textContent = p.name;
+        }
     }
 }
 
 
-const person = new Person();
+@WithTemplate('<h1></h1>', '#app')
+class Person {
+    name = 'me';
+}
 
-console.log(person);
+const person = new Person();
