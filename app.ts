@@ -18,8 +18,9 @@ function WithTemplate(template: string, selector: string) {
     }
 }
 
-
+// Execute from the bottom up
 @WithTemplate('<h1></h1>', '#app')
+@Logger('creating person')
 class Person {
     name = 'me';
 }

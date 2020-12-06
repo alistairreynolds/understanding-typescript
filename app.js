@@ -21,12 +21,14 @@ function WithTemplate(template, selector) {
         }
     };
 }
+// Execute from the bottom up
 var Person = /** @class */ (function () {
     function Person() {
         this.name = 'me';
     }
     Person = __decorate([
-        WithTemplate('<h1></h1>', '#app')
+        WithTemplate('<h1></h1>', '#app'),
+        Logger('creating person')
     ], Person);
     return Person;
 }());
