@@ -26,3 +26,48 @@ class Person {
 }
 
 const person = new Person();
+
+// Target = the object it's assigned to
+function Log(target: any, prop: string | Symbol){
+    console.log('Property decorator')
+    console.log(target, prop)
+}
+
+
+class Product{
+    get name(): string {
+        return this._name;
+    }
+
+    set name(value: string) {
+        this._name = value;
+    }
+    get price(): number {
+        return this._price;
+    }
+
+    set price(value: number) {
+        if(value > 0){
+            this._price = value;
+        }else{
+            throw('Cannot have negative price');
+        }}
+
+    @Log
+    private _name: string;
+
+    @Log
+    private _price: number;
+
+    constructor(n: string, p: number) {
+        this._name = n;
+        this._price = p;
+    }
+
+
+    getPriceWithTax(){
+        return this._price * 1.175;
+    }
+}
+
+const cake = new Product('cake', 10)

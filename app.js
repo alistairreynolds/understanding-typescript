@@ -33,3 +33,50 @@ var Person = /** @class */ (function () {
     return Person;
 }());
 var person = new Person();
+// Target = the object it's assigned to
+function Log(target, prop) {
+    console.log('Property decorator');
+    console.log(target, prop);
+}
+var Product = /** @class */ (function () {
+    function Product(n, p) {
+        this._name = n;
+        this._price = p;
+    }
+    Object.defineProperty(Product.prototype, "name", {
+        get: function () {
+            return this._name;
+        },
+        set: function (value) {
+            this._name = value;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Product.prototype, "price", {
+        get: function () {
+            return this._price;
+        },
+        set: function (value) {
+            if (value > 0) {
+                this._price = value;
+            }
+            else {
+                throw ('Cannot have negative price');
+            }
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Product.prototype.getPriceWithTax = function () {
+        return this._price * 1.175;
+    };
+    __decorate([
+        Log
+    ], Product.prototype, "_name");
+    __decorate([
+        Log
+    ], Product.prototype, "_price");
+    return Product;
+}());
+var cake = new Product('cake', 10);
