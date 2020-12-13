@@ -1,8 +1,7 @@
 // Create as a decorator factory so it can be customised when called
 function Logger(logMsg: string) {
     return function (constructor: Function) {
-        console.log(logMsg);
-        console.log(constructor);
+        console.log(logMsg,constructor);
     }
 }
 
@@ -28,13 +27,33 @@ class Person {
 const person = new Person();
 
 // Target = the object it's assigned to
-function Log(target: any, prop: string | Symbol){
-    console.log('Property decorator')
+function LogProp(target: any, prop: string | Symbol) {
+    console.log('*** Property decorator ***')
     console.log(target, prop)
 }
 
 
-class Product{
+// Describes a getter/setter
+function LogDescriptor(target: any, propName: string | Symbol, descriptor: PropertyDescriptor) {
+    console.log('*** Descriptor decorator ***')
+    console.log(target, propName, descriptor);
+}
+
+// Describes a method
+function LogMethod(target: any, methodName: string | Symbol, descriptor: PropertyDescriptor){
+    console.log('*** Function decorator ***')
+    console.log(target, methodName, descriptor);
+}
+
+// Logs a method parameter
+function LogParameter(target: any, methodName: string | Symbol, paramPos: number){
+    console.log('*** Param decorator ***')
+    console.log(target, methodName, paramPos);
+}
+
+class Product {
+
+    @LogDescriptor
     get name(): string {
         return this._name;
     }
@@ -42,21 +61,23 @@ class Product{
     set name(value: string) {
         this._name = value;
     }
+
+    @LogDescriptor
+    set price(value: number) {
+        if (value > 0) {
+            this._price = value;
+        } else {
+            throw('Cannot have negative price');
+        }
+    }
     get price(): number {
         return this._price;
     }
 
-    set price(value: number) {
-        if(value > 0){
-            this._price = value;
-        }else{
-            throw('Cannot have negative price');
-        }}
-
-    @Log
+    @LogProp
     private _name: string;
 
-    @Log
+    @LogProp
     private _price: number;
 
     constructor(n: string, p: number) {
@@ -65,9 +86,12 @@ class Product{
     }
 
 
-    getPriceWithTax(){
-        return this._price * 1.175;
+    @LogMethod
+    getPriceWithTax(@LogParameter  tax: number = 1.178) {
+        return this._price * tax;
     }
 }
 
 const cake = new Product('cake', 10)
+
+cake.getPriceWithTax();

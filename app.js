@@ -4,11 +4,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 // Create as a decorator factory so it can be customised when called
 function Logger(logMsg) {
     return function (constructor) {
-        console.log(logMsg);
-        console.log(constructor);
+        console.log(logMsg, constructor);
     };
 }
 function WithTemplate(template, selector) {
@@ -34,9 +36,24 @@ var Person = /** @class */ (function () {
 }());
 var person = new Person();
 // Target = the object it's assigned to
-function Log(target, prop) {
-    console.log('Property decorator');
+function LogProp(target, prop) {
+    console.log('*** Property decorator ***');
     console.log(target, prop);
+}
+// Describes a getter/setter
+function LogDescriptor(target, propName, descriptor) {
+    console.log('*** Descriptor decorator ***');
+    console.log(target, propName, descriptor);
+}
+// Describes a method
+function LogMethod(target, methodName, descriptor) {
+    console.log('*** Function decorator ***');
+    console.log(target, methodName, descriptor);
+}
+// Logs a method parameter
+function LogParameter(target, methodName, paramPos) {
+    console.log('*** Param decorator ***');
+    console.log(target, methodName, paramPos);
 }
 var Product = /** @class */ (function () {
     function Product(n, p) {
@@ -68,15 +85,27 @@ var Product = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
-    Product.prototype.getPriceWithTax = function () {
-        return this._price * 1.175;
+    Product.prototype.getPriceWithTax = function (tax) {
+        if (tax === void 0) { tax = 1.178; }
+        return this._price * tax;
     };
     __decorate([
-        Log
+        LogDescriptor
+    ], Product.prototype, "name");
+    __decorate([
+        LogDescriptor
+    ], Product.prototype, "price");
+    __decorate([
+        LogProp
     ], Product.prototype, "_name");
     __decorate([
-        Log
+        LogProp
     ], Product.prototype, "_price");
+    __decorate([
+        LogMethod,
+        __param(0, LogParameter)
+    ], Product.prototype, "getPriceWithTax");
     return Product;
 }());
 var cake = new Product('cake', 10);
+cake.getPriceWithTax();
