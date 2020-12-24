@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -14,13 +27,26 @@ function Logger(logMsg) {
     };
 }
 function WithTemplate(template, selector) {
-    return function (constructor) {
-        var el = document.querySelector(selector);
-        var p = new constructor();
-        if (el) {
-            el.innerHTML = template;
-            el.querySelector('h1').textContent = p.name;
-        }
+    console.log('TEMPLATE FACTORY');
+    return function (originalConstructor) {
+        return /** @class */ (function (_super) {
+            __extends(class_1, _super);
+            function class_1() {
+                var _ = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    _[_i] = arguments[_i];
+                }
+                var _this = _super.call(this) || this;
+                console.log('Rendering template');
+                var el = document.querySelector(selector);
+                if (el) {
+                    el.innerHTML = template;
+                    el.querySelector('h1').textContent = _this.name;
+                }
+                return _this;
+            }
+            return class_1;
+        }(originalConstructor));
     };
 }
 // Execute from the bottom up
@@ -34,7 +60,8 @@ var Person = /** @class */ (function () {
     ], Person);
     return Person;
 }());
-var person = new Person();
+// Now that we're returning a Class in the decorator, it will only handle the decorator when the class is instantiated
+new Person();
 // Target = the object it's assigned to
 function LogProp(target, prop) {
     console.log('*** Property decorator ***');
@@ -107,5 +134,3 @@ var Product = /** @class */ (function () {
     ], Product.prototype, "getPriceWithTax");
     return Product;
 }());
-var cake = new Product('cake', 10);
-cake.getPriceWithTax();
