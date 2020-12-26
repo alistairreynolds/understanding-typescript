@@ -2,25 +2,50 @@ class ProjectInput {
 
     private elements: {
         template: HTMLTemplateElement
-        wrapper: HTMLElement
+        parent: HTMLElement,
+        form?: HTMLFormElement;          // Needs to be optional as it won't be there when we create the elements object
+        titleInput?: HTMLInputElement,
+        descriptionInput?: HTMLInputElement,
+        peopleInput?: HTMLInputElement,
     };
 
     constructor() {
         this.elements = {
             template: document.getElementById('project-input')! as HTMLTemplateElement,
-            wrapper: document.getElementById('app')! as HTMLElement,
+            parent: document.getElementById('app')! as HTMLElement,
         }
 
-        this._attachEl();
+        this.elements.form = document.importNode(this.elements.template.content, true).firstElementChild as HTMLFormElement;
+        this.elements.form.id = 'user-input';
+
+        this.elements.titleInput = this.elements.form.querySelector('.title')! as HTMLInputElement
+        this.elements.descriptionInput = this.elements.form.querySelector('.description')! as HTMLInputElement;
+        this.elements.peopleInput = this.elements.form.querySelector('.people')! as HTMLInputElement;
+
+        // Alternate version of creating the node
+        // this.elements.template.content.cloneNode(true) as HTMLFormElement;
+        this._attach()
+            ._addListeners();
     }
 
 
-    private _attachEl(): void {
-        const node = this.elements.template.content.cloneNode(true);
-        this.elements.wrapper.append(node)
+    private _submitHandler(event: Event) {
+        event.preventDefault();
+        console.log(this.elements.titleInput?.value);
+    }
 
-        // Alternate version of creating the node
-        // const node = document.importNode(this.elements.template.content, true)
+
+    private _addListeners(): this {
+        this.elements.form?.addEventListener('submit', this._submitHandler.bind(this));
+
+        return this;
+    }
+
+
+    private _attach(): this {
+        this.elements.parent.appendChild(this.elements.form!)
+
+        return this;
     }
 
 }
