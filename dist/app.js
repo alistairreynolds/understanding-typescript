@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var construct = Reflect.construct;
 function Logger(logString) {
     console.log('LOGGER FACTORY');
     return function (constructor) {
@@ -117,6 +118,9 @@ function Autobind(_, _2, descriptor) {
     };
     return adjDescriptor;
 }
+/////////////////////
+// Autobinding
+/////////////////////
 class Printer {
     constructor() {
         this.message = 'This works!';
@@ -135,3 +139,64 @@ const p = new Printer();
 p.showMessage();
 const button = document.querySelector('button');
 button.addEventListener('click', p.showMessage);
+const registeredValidators = {};
+function Required(target, propertyName) {
+    registeredValidators[target.constructor.name] = Object.assign(Object.assign({}, registeredValidators[target.constructor.name]), { [propertyName]: ['required'] });
+}
+function PositiveNumber(target, propertyName) {
+    registeredValidators[target.constructor.name] = Object.assign(Object.assign({}, registeredValidators[target.constructor.name]), { [propertyName]: ['positive'] });
+}
+function validate(obj) {
+    const validatorProperties = registeredValidators[obj.constructor.name];
+    if (!validatorProperties) {
+        // No validation rules, return true
+        return true;
+    }
+    let isValid = true;
+    // Loop through each property being validated in the object
+    for (const prop in validatorProperties) {
+        // Loop through each rule in the indexed property
+        for (const rule of validatorProperties[prop]) {
+            switch (rule) {
+                case 'required':
+                    // Return true if property of object is not true (ie, empty)
+                    isValid = isValid && !!obj[prop];
+                    break;
+                case 'positive':
+                    isValid = isValid && obj[prop] > 0;
+                    break;
+            }
+        }
+    }
+    return isValid;
+}
+class Course {
+    constructor(title, price) {
+        this.title = title;
+        this.price = price;
+    }
+}
+__decorate([
+    Required,
+    __metadata("design:type", String)
+], Course.prototype, "title", void 0);
+__decorate([
+    Required,
+    PositiveNumber,
+    __metadata("design:type", Number)
+], Course.prototype, "price", void 0);
+const courseForm = document.querySelector('form');
+courseForm.addEventListener('submit', event => {
+    event.preventDefault();
+    const titleEl = document.querySelector('#title');
+    const priceEl = document.querySelector('#price');
+    const title = titleEl.value;
+    // + - convert to number
+    const price = +priceEl.value;
+    let course = new Course(title, price);
+    if (!validate(course)) {
+        console.warn('invalid');
+        return;
+    }
+    console.log(course);
+});
