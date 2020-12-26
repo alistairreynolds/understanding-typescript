@@ -134,3 +134,31 @@ var Product = /** @class */ (function () {
     ], Product.prototype, "getPriceWithTax");
     return Product;
 }());
+function Autobind(_, _2, descriptor) {
+    // Fetch the original method, which will be the value of the descriptor so we can bind it
+    var originalMethod = descriptor.value;
+    var adjustedMethod = {
+        enumerable: false,
+        configurable: true,
+        get: function () {
+            // Automatically bind "this" to the original method when using the property getter
+            return originalMethod.bind(this);
+        }
+    };
+    return adjustedMethod;
+}
+var Printer = /** @class */ (function () {
+    function Printer() {
+        this.message = "Hi there";
+    }
+    Printer.prototype.showMessage = function () {
+        console.log(this.message);
+    };
+    __decorate([
+        Autobind
+    ], Printer.prototype, "showMessage");
+    return Printer;
+}());
+var p = new Printer();
+var btn = document.querySelector('button');
+btn.addEventListener('click', p.showMessage);

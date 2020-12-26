@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "lite": "lite-server",
-    "tsc": "tsc app.ts",
-    "tsc:w": "tsc app.ts -w",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" "
   },
   "author": "Maximilian Schwarzmüller",
