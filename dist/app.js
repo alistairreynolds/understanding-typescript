@@ -55,11 +55,20 @@ class ProjectInput {
      * @private
      */
     _getUserInput() {
-        // TODO: validation
+        // Validate the data
+        const validationErrors = this._validate([
+            { inputEl: this.elements.titleInput, required: true, minLength: 3, maxLength: 20 },
+            { inputEl: this.elements.descriptionInput, required: true, minLength: 10, maxLength: 255 },
+            { inputEl: this.elements.peopleInput, required: true, min: 1, max: 10 },
+        ]);
+        if (validationErrors.length > 0) {
+            alert(`Invalid data: ${validationErrors.join(', ')}`);
+            return;
+        }
         return [
             this.elements.titleInput.value,
             this.elements.descriptionInput.value,
-            +this.elements.peopleInput.value,
+            +this.elements.peopleInput.value
         ];
     }
     /**
@@ -106,6 +115,44 @@ class ProjectInput {
     _attach() {
         this.elements.parent.appendChild(this.elements.form);
         return this;
+    }
+    /**
+     *
+     * @param inputEl
+     * @param required
+     * @param minLength
+     * @param maxLength
+     * @param min
+     * @param max
+     * @private
+     */
+    _validate([{ inputEl, required = false, minLength, maxLength, min, max, }]) {
+        let errors = [];
+        console.log(arguments);
+        // Loop through each property and validate
+        arguments[0].forEach((prop) => {
+            const value = prop.inputEl.value.trim();
+            const elName = prop.inputEl.getAttribute('class');
+            // Check it's required
+            if (prop.required && !value) {
+                errors.push(`${elName} is required`);
+            }
+            // Min/max length
+            if (typeof prop.minLength === 'number' && value.length < prop.minLength) {
+                errors.push(`${elName} must be at least ${prop.minLength} characters`);
+            }
+            if (typeof prop.maxLength === 'number' && value.length > prop.maxLength) {
+                errors.push(`${elName} must be under ${prop.maxLength} characters`);
+            }
+            // Min/max length
+            if (typeof prop.min === 'number' && +value < prop.min) {
+                errors.push(`${elName} must be at least ${prop.min}`);
+            }
+            if (typeof prop.max === 'number' && +value > prop.max) {
+                errors.push(`${elName} must be below ${prop.maxLength}`);
+            }
+        });
+        return errors;
     }
 }
 __decorate([
