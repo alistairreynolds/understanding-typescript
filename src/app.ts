@@ -10,7 +10,7 @@
  * @param descriptor
  * @constructor
  */
-function Autobind(_: any, _2: string, descriptor: PropertyDescriptor): PropertyDescriptor{
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor): PropertyDescriptor {
     return {
         enumerable: false,
         configurable: true,
@@ -27,27 +27,31 @@ function Autobind(_: any, _2: string, descriptor: PropertyDescriptor): PropertyD
 
 class ProjectInput {
 
-    private elements: {
+    private readonly elements: {
         template: HTMLTemplateElement
         parent: HTMLElement,
-        form?: HTMLFormElement;          // Needs to be optional as it won't be there when we create the elements object
-        titleInput?: HTMLInputElement,
-        descriptionInput?: HTMLInputElement,
-        peopleInput?: HTMLInputElement,
+        form: HTMLFormElement,
+        titleInput: HTMLInputElement,
+        descriptionInput: HTMLInputElement,
+        peopleInput: HTMLInputElement,
     };
 
     constructor() {
+
+        // Define some elements we'll need to reference inside the "elements" object, so we need them earlier on
+        const templateEl = document.getElementById('project-input')! as HTMLTemplateElement
+        const formEl = document.importNode(templateEl.content, true).firstElementChild as HTMLFormElement;
+
         this.elements = {
-            template: document.getElementById('project-input')! as HTMLTemplateElement,
-            parent: document.getElementById('app')! as HTMLElement,
+            template: <HTMLTemplateElement>templateEl,
+            form: <HTMLFormElement>formEl,
+            parent: <HTMLElement>document.getElementById('app')!,
+            titleInput: <HTMLInputElement>formEl.querySelector('.title')!,
+            descriptionInput: <HTMLInputElement>formEl.querySelector('.description')!,
+            peopleInput: <HTMLInputElement>formEl.querySelector('.people')!,
         }
 
-        this.elements.form = document.importNode(this.elements.template.content, true).firstElementChild as HTMLFormElement;
         this.elements.form.id = 'user-input';
-
-        this.elements.titleInput = this.elements.form.querySelector('.title')! as HTMLInputElement
-        this.elements.descriptionInput = this.elements.form.querySelector('.description')! as HTMLInputElement;
-        this.elements.peopleInput = this.elements.form.querySelector('.people')! as HTMLInputElement;
 
         // Alternate version of creating the node
         // this.elements.template.content.cloneNode(true) as HTMLFormElement;
@@ -56,13 +60,63 @@ class ProjectInput {
     }
 
 
-    @Autobind
-    private _submitHandler(event: Event) {
-        event.preventDefault();
-        console.log(this.elements.titleInput?.value);
+    /**
+     * Fetches the user input data
+     * @private
+     */
+    private _getUserInput(): [string, string, number] | void {
+
+        // TODO: validation
+
+        return [
+            this.elements.titleInput.value,
+            this.elements.descriptionInput.value,
+            +this.elements.peopleInput.value,
+        ];
     }
 
 
+    /**
+     * Handles submitting  the form
+     * @param event
+     * @private
+     */
+    @Autobind
+    private _submitHandler(event: Event): this {
+        event.preventDefault();
+
+        const userData = this._getUserInput();
+        if (!userData) {
+            return this;
+        }
+
+        // Destructure the data
+        const [title, desc, people] = userData;
+        console.log(title, desc, people);
+        this._clearInputs();
+
+        return this;
+    }
+
+
+    /**
+     * Clears the input fields
+     *
+     * @private
+     */
+    private _clearInputs(): this{
+        this.elements.peopleInput.value = "";
+        this.elements.descriptionInput.value = "";
+        this.elements.titleInput.value = "";
+
+        return this;
+    }
+
+
+    /**
+     * Adds event listeners to the form
+     * @private
+     */
     private _addListeners(): this {
         this.elements.form?.addEventListener('submit', this._submitHandler.bind(this));
 
@@ -70,6 +124,10 @@ class ProjectInput {
     }
 
 
+    /**
+     * Attaches the elements to the form
+     * @private
+     */
     private _attach(): this {
         this.elements.parent.appendChild(this.elements.form!)
 

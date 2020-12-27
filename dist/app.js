@@ -33,30 +33,76 @@ function Autobind(_, _2, descriptor) {
  *****************/
 class ProjectInput {
     constructor() {
+        // Define some elements we'll need to reference inside the "elements" object, so we need them earlier on
+        const templateEl = document.getElementById('project-input');
+        const formEl = document.importNode(templateEl.content, true).firstElementChild;
         this.elements = {
-            template: document.getElementById('project-input'),
+            template: templateEl,
+            form: formEl,
             parent: document.getElementById('app'),
+            titleInput: formEl.querySelector('.title'),
+            descriptionInput: formEl.querySelector('.description'),
+            peopleInput: formEl.querySelector('.people'),
         };
-        this.elements.form = document.importNode(this.elements.template.content, true).firstElementChild;
         this.elements.form.id = 'user-input';
-        this.elements.titleInput = this.elements.form.querySelector('.title');
-        this.elements.descriptionInput = this.elements.form.querySelector('.description');
-        this.elements.peopleInput = this.elements.form.querySelector('.people');
         // Alternate version of creating the node
         // this.elements.template.content.cloneNode(true) as HTMLFormElement;
         this._attach()
             ._addListeners();
     }
-    _submitHandler(event) {
-        var _a;
-        event.preventDefault();
-        console.log((_a = this.elements.titleInput) === null || _a === void 0 ? void 0 : _a.value);
+    /**
+     * Fetches the user input data
+     * @private
+     */
+    _getUserInput() {
+        // TODO: validation
+        return [
+            this.elements.titleInput.value,
+            this.elements.descriptionInput.value,
+            +this.elements.peopleInput.value,
+        ];
     }
+    /**
+     * Handles submitting  the form
+     * @param event
+     * @private
+     */
+    _submitHandler(event) {
+        event.preventDefault();
+        const userData = this._getUserInput();
+        if (!userData) {
+            return this;
+        }
+        // Destructure the data
+        const [title, desc, people] = userData;
+        console.log(title, desc, people);
+        this._clearInputs();
+        return this;
+    }
+    /**
+     * Clears the input fields
+     *
+     * @private
+     */
+    _clearInputs() {
+        this.elements.peopleInput.value = "";
+        this.elements.descriptionInput.value = "";
+        this.elements.titleInput.value = "";
+        return this;
+    }
+    /**
+     * Adds event listeners to the form
+     * @private
+     */
     _addListeners() {
         var _a;
         (_a = this.elements.form) === null || _a === void 0 ? void 0 : _a.addEventListener('submit', this._submitHandler.bind(this));
         return this;
     }
+    /**
+     * Attaches the elements to the form
+     * @private
+     */
     _attach() {
         this.elements.parent.appendChild(this.elements.form);
         return this;
@@ -66,6 +112,6 @@ __decorate([
     Autobind,
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Event]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Object)
 ], ProjectInput.prototype, "_submitHandler", null);
 const input = new ProjectInput();
