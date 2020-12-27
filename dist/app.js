@@ -1,4 +1,36 @@
 "use strict";
+/******************
+ * Decorators
+ *****************/
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+/**
+ * Autobind the function to the passed descriptor
+ *
+ * @param _
+ * @param _2
+ * @param descriptor
+ * @constructor
+ */
+function Autobind(_, _2, descriptor) {
+    return {
+        enumerable: false,
+        configurable: true,
+        get() {
+            return descriptor.value.bind(this);
+        }
+    };
+}
+/******************
+ * Classes
+ *****************/
 class ProjectInput {
     constructor() {
         this.elements = {
@@ -30,4 +62,10 @@ class ProjectInput {
         return this;
     }
 }
+__decorate([
+    Autobind,
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Event]),
+    __metadata("design:returntype", void 0)
+], ProjectInput.prototype, "_submitHandler", null);
 const input = new ProjectInput();

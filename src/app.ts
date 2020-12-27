@@ -1,3 +1,30 @@
+/******************
+ * Decorators
+ *****************/
+
+/**
+ * Autobind the function to the passed descriptor
+ *
+ * @param _
+ * @param _2
+ * @param descriptor
+ * @constructor
+ */
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor): PropertyDescriptor{
+    return {
+        enumerable: false,
+        configurable: true,
+        get() {
+            return descriptor.value.bind(this);
+        }
+    }
+}
+
+
+/******************
+ * Classes
+ *****************/
+
 class ProjectInput {
 
     private elements: {
@@ -29,6 +56,7 @@ class ProjectInput {
     }
 
 
+    @Autobind
     private _submitHandler(event: Event) {
         event.preventDefault();
         console.log(this.elements.titleInput?.value);
