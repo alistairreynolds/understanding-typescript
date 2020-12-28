@@ -31,9 +31,57 @@ interface Validatable {
 }
 
 
+enum PROJECT_STATUSES {
+    ACTIVE = 'active',
+    INACTIVE = 'finished'
+}
+
+
 /******************
  * Classes
  *****************/
+
+
+class ProjectList {
+
+    private readonly elements: {
+        template: HTMLTemplateElement,
+        parent: HTMLDivElement,
+        root: HTMLElement,
+    }
+
+    constructor(private status: PROJECT_STATUSES){
+        const templateEl = document.getElementById('project-list')! as HTMLTemplateElement
+        const rootEl = document.importNode(templateEl.content, true).firstElementChild as HTMLFormElement;
+
+        this.elements = {
+            parent: <HTMLDivElement>document.getElementById('app')!,
+            template: <HTMLTemplateElement>templateEl,
+            root: <HTMLElement>rootEl
+        }
+
+        this.elements.root.id = `${this.status}-projects`;
+        this._attach()
+            ._renderContent();
+    }
+
+
+    private _attach(): this {
+        this.elements.parent.appendChild(this.elements.root!)
+
+        return this;
+    }
+
+
+    private _renderContent(): this {
+        this.elements.root.querySelector('h2')!.innerText = `${this.status} projects`;
+
+        return this;
+    }
+
+
+}
+
 
 class ProjectInput {
 
@@ -178,8 +226,6 @@ class ProjectInput {
 
         let errors: string[] = [];
 
-        console.log(arguments);
-
         // Loop through each property and validate
         arguments[0].forEach((prop: Validatable) => {
 
@@ -214,3 +260,5 @@ class ProjectInput {
 }
 
 const input = new ProjectInput();
+const activeProjects = new ProjectList(PROJECT_STATUSES.ACTIVE);
+const inactiveProjects = new ProjectList(PROJECT_STATUSES.INACTIVE);

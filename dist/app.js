@@ -28,9 +28,37 @@ function Autobind(_, _2, descriptor) {
         }
     };
 }
+var PROJECT_STATUSES;
+(function (PROJECT_STATUSES) {
+    PROJECT_STATUSES["ACTIVE"] = "active";
+    PROJECT_STATUSES["INACTIVE"] = "finished";
+})(PROJECT_STATUSES || (PROJECT_STATUSES = {}));
 /******************
  * Classes
  *****************/
+class ProjectList {
+    constructor(status) {
+        this.status = status;
+        const templateEl = document.getElementById('project-list');
+        const rootEl = document.importNode(templateEl.content, true).firstElementChild;
+        this.elements = {
+            parent: document.getElementById('app'),
+            template: templateEl,
+            root: rootEl
+        };
+        this.elements.root.id = `${this.status}-projects`;
+        this._attach()
+            ._renderContent();
+    }
+    _attach() {
+        this.elements.parent.appendChild(this.elements.root);
+        return this;
+    }
+    _renderContent() {
+        this.elements.root.querySelector('h2').innerText = `${this.status} projects`;
+        return this;
+    }
+}
 class ProjectInput {
     constructor() {
         // Define some elements we'll need to reference inside the "elements" object, so we need them earlier on
@@ -128,7 +156,6 @@ class ProjectInput {
      */
     _validate([{ inputEl, required = false, minLength, maxLength, min, max, }]) {
         let errors = [];
-        console.log(arguments);
         // Loop through each property and validate
         arguments[0].forEach((prop) => {
             const value = prop.inputEl.value.trim();
@@ -162,3 +189,5 @@ __decorate([
     __metadata("design:returntype", Object)
 ], ProjectInput.prototype, "_submitHandler", null);
 const input = new ProjectInput();
+const activeProjects = new ProjectList(PROJECT_STATUSES.ACTIVE);
+const inactiveProjects = new ProjectList(PROJECT_STATUSES.INACTIVE);

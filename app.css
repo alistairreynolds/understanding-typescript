@@ -79,6 +79,7 @@ button:active {
 .projects h2 {
   margin: 0;
   color: white;
+  text-transform: uppercase;
 }
 
 .projects ul {
